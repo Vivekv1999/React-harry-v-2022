@@ -1,6 +1,6 @@
 import React,{useState} from 'react'
 
-export default function TextForm(proprs) {
+export default function TextForm(props) {
 
 const handleupclick =()=>{
         console.log('uppercase was clicked' + Text);
@@ -55,9 +55,9 @@ const handleupclick =()=>{
     // setText("ready to set");        //correct way
     return (
         <>
-        <div className="container my-3">
-            <h2>{proprs.heading}</h2>
-            <textarea className="form-control" value={Text} onChange={handleOnchange} placeholder="Leave a comment here" id="mybox" rows="7"></textarea>
+        <div className="container my-3" style={{color: props.modee==='dark'?'white':'black'}}>
+            <h2>{props.heading}</h2>
+            <textarea className="form-control" value={Text} onChange={handleOnchange}  style={{backgroundColor: props.modee==='dark'?'grey':'white', color: props.modee==='dark'?'white':'black'}} placeholder="Leave a comment here" id="mybox" rows="7"></textarea>
             <button className='btn btn-success my-2' onClick={handleupclick}>Convert to upper case</button>
             <button className='btn btn-outline-danger mx-3 my-2' onClick={handleuplower}>Convert to lower case</button>
             <button className='btn btn-warning my-2' onClick={handleupclear}>Clear text </button>
@@ -68,12 +68,12 @@ const handleupclick =()=>{
             <button className='btn btn-primary my-2' onClick={handelExtraSpace}>remove space</button>
         </div>
 
-        <div className="container">
+        <div className="container" style={{color: props.modee==='dark'?'white':'black'}}>
             <h3>Your Text Summart</h3>
             <p>{Text.split(" ").length} words and {Text.length} charscters</p>
             <p>{0.008 * Text.split(" ").length} Minutes to read</p>
             <h3>preview</h3>
-            <p>{Text}</p>
+            <p>{Text.length>0?Text:"Enter something to preview"}</p>
         </div>
         </>
     )
