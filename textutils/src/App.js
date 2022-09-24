@@ -24,11 +24,16 @@ function App() {
       setMode('dark')
       document.body.style.backgroundColor="grey"
       showalert("dark mode has been enabled","success")
+      document.title="Textils- Dark Mode"
+      // setInterval(() => {
+      //   document.title="Textils- Dark Mode"
+      // }, 2000);
     }
     else{
       setMode('light')
       document.body.style.backgroundColor="white"
       showalert("light mode has been enabled","success")
+      document.title="Textils- Light Mode"
     }
   }
 
