@@ -30,6 +30,14 @@ const handleupclick =()=>{
     
     const handlefirslatter =()=>{
         let newText=Text.split(" ")
+
+        for(let i=0;i<newText.length;i++){
+            newText[i]=newText[i].charAt(0).toUpperCase + newText[i].slice(2)
+                }
+
+         let zzz=newText.join(" ");       
+         console.log(zzz);
+               
       
     }
 

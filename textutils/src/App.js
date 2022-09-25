@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import './App.css';
 import Alert from './components/Alert';
-import About from './components/About';
+// import About from './components/About';
 import Navbar from './components/Navbar';
 import TextForm from './components/TextForm';
-import {
-  BrowserRouter, Routes, Route
-} from "react-router-dom";
+// import {
+//   BrowserRouter, Routes, Route
+// } from "react-router-dom";
 
 function App() {
   const [mode, setMode] = useState('light');//  --->darkmode is unable or not
@@ -36,29 +36,39 @@ function App() {
       setMode('light')
       document.body.style.backgroundColor = "white"
       showalert("light mode has been enabled", "success")
-      document.title = "Textils- Light Mode"
+      document.title = "Textutils- Light Mode"
     }
   }
 
   return (
     <>
 
-      <BrowserRouter>
 
-        <Navbar title="textutils" abouttext="about us" modee={mode} togglemodeee={togglemode} />
+        <Navbar title="Textutils" abouttext="about us" modee={mode} togglemodeee={togglemode} />
+        <TextForm showalerttt={showalert} heading="Enter the heading" modee={mode} />
 
         {/* <Alert alert={alert}/> */}
 
-        <Routes>
-          <Route path="/about" element={<About />} />
-        </Routes>
-        
-          <div className="container">
-            <TextForm showalerttt={showalert} heading="Enter the heading" modee={mode} />
-          </div>
-          
 
-      </BrowserRouter>
+        
+        {/* ============> git page ma route barabar nati vhaltu ate route kathu  &&&& about valu akhu page kathu
+        ==================> olaa nVBAR MA JAY ANI JAGAA Link   LAKHU TYA PN PA6U     a    ANE href LAKHI NAKHU  */}
+
+        {/* <BrowserRouter> */}
+        
+        {/* <Routes>
+          <Route path="/About" element={<About  />} />
+        </Routes>
+
+        <Routes>
+          <Route path="/" element={<TextForm showalerttt={showalert} heading="Enter the heading" modee={mode} />}></Route>
+        </Routes> */}
+
+        {/* <div className="container">  ===========> pela rout pela avu hatu <==============
+          <TextForm showalerttt={showalert} heading="Enter the heading" modee={mode} />
+        </div> */}
+
+      {/* </BrowserRouter> */}
         
     </>
   );

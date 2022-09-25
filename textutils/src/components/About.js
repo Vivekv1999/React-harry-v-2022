@@ -74,5 +74,6 @@ export default function About() {
         <button type="button" id='darkmode' onClick={togglestyle} class='my-3 btn btn-primary'>Enable dark mode</button>
       </div>
     </div>
+    
   )
 }
