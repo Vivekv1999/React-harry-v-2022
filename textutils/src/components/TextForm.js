@@ -76,7 +76,7 @@ const handleupclick =()=>{
 
         <div className="container" style={{color: props.modee==='dark'?'white':'black'}}>
             <h3>Your Text Summart</h3>
-            <p>{Text.split(" ").length} words and {Text.length} charscters</p>
+            <p>{Text.length===0?0:Text.split(" ").length} words and {Text.length} charscters</p>
             <p>{0.008 * Text.split(" ").length} Minutes to read</p>
             <h3>preview</h3>
             <p>{Text.length>0?Text:"Enter something to preview"}</p>
