@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import './App.css';
 import Alert from './components/Alert';
-// import About from './components/About';
+import About from './components/About';
 import Navbar from './components/Navbar';
 import TextForm from './components/TextForm';
 // import {
@@ -27,7 +27,7 @@ function App() {
       setMode('dark')
       document.body.style.backgroundColor = "grey"
       showalert("dark mode has been enabled", "success")
-      document.title = "Textils- Dark Mode"
+      // document.title = "Textils- Dark Mode"    ====> batavva purtu karu tu 
       // setInterval(() => {
       //   document.title="Textils- Dark Mode"
       // }, 2000);react-router-dom 
@@ -36,7 +36,7 @@ function App() {
       setMode('light')
       document.body.style.backgroundColor = "white"
       showalert("light mode has been enabled", "success")
-      document.title = "Textutils- Light Mode"
+      // document.title = "Textutils- Light Mode"
     }
   }
 
@@ -45,30 +45,13 @@ function App() {
 
 
         <Navbar title="Textutils" abouttext="about us" modee={mode} togglemodeee={togglemode} />
-        <TextForm showalerttt={showalert} heading="Enter the heading" modee={mode} />
+        <Alert alert={alert}/>
+        <TextForm showalerttt={showalert} heading="Textutils- Word counter, Character counter, Remove extra spaces" modee={mode} />
 
-        {/* <Alert alert={alert}/> */}
-
-
+        {/* <About  /> */}
         
-        {/* ============> git page ma route barabar nati vhaltu ate route kathu  &&&& about valu akhu page kathu
-        ==================> olaa nVBAR MA JAY ANI JAGAA Link   LAKHU TYA PN PA6U     a    ANE href LAKHI NAKHU  */}
 
-        {/* <BrowserRouter> */}
-        
-        {/* <Routes>
-          <Route path="/About" element={<About  />} />
-        </Routes>
 
-        <Routes>
-          <Route path="/" element={<TextForm showalerttt={showalert} heading="Enter the heading" modee={mode} />}></Route>
-        </Routes> */}
-
-        {/* <div className="container">  ===========> pela rout pela avu hatu <==============
-          <TextForm showalerttt={showalert} heading="Enter the heading" modee={mode} />
-        </div> */}
-
-      {/* </BrowserRouter> */}
         
     </>
   );
