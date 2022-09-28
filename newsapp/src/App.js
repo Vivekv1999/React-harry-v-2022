@@ -1,13 +1,18 @@
 import React, { Component } from 'react'
+import Navbar from './Component/Navbar'
+import News from './Component/News'
+import NewsItem from './Component/NewsItem'
 
 export default class App extends Component {
   c="joy"
   render() {
     return (
-      <div>
-        hello class base commponent {this.c}
-        
-      </div>
+      <>
+      <Navbar />
+      <News />
+      
+      </>
+      
     )
   }
 }
