@@ -8,7 +8,7 @@ const handleupclick =()=>{
         let newText=Text.toUpperCase();
         setText(newText);
         // setText('you have cliced on handleupclick')  
-        props.showalerttt("Converted to UpperCase","success")
+        props.CFV("Converted to UpperCase","success")
     }
 
     const handleuplower =()=>{
@@ -101,7 +101,7 @@ const handleupclick =()=>{
 
         <div className="container" style={{color: props.modee==='dark'?'white':'black'}}>
             <h3>Your Text Summart</h3>
-            <p>{Text.split(" ").filter((element)=>{return element.length !==0}).length} words and {Text.length} charscters</p>
+            <p>{Text.split(/\s+/).filter((element)=>{return element.length !==0}).length} words and {Text.length} charscters</p>
             <p>{0.008 * Text.split(" ").filter((element)=>{return element.length !==0}).length} Minutes to read</p>
             <h3>preview</h3>
             <p>{Text.length>0?Text:"Nothing to preview"}</p>
