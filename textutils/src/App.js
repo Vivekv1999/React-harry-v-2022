@@ -45,7 +45,7 @@ function App() {
 
 
         <Navbar title="Textutils" abouttext="about us" modee={mode} togglemodeee={togglemode} />
-        <Alert alert={alert}/>
+        {/* <Alert alert={alert}/> */}
         <TextForm showalerttt={showalert} heading="Textutils- Word counter, Character counter, Remove extra spaces" modee={mode} />
 
         {/* <About  /> */}
