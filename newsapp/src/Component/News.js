@@ -271,21 +271,54 @@ export default class News extends Component {
     console.log('hello i am constructor from news componenet');
     this.state = {
       articles: [],
-      loading: false
+      loading: false,
+      page: 1,
+      // totalResults:null
     }
 
   }
-    async componentDidMount(){
-      let url="https://newsapi.org/v2/top-headlines?country=in&category=business&apiKey=2ca38cd9a482465abfb631ade3f88ed9"
-      let data= await fetch(url)
-      let parsedata= await data.json()
-      console.log(parsedata);       // ahiya thi khar pade ke otal 70 result 6 parntu apne ne 20 j dekahy 6
-      
 
-      this.setState({articles:parsedata.articles})
+  ///componet did mount--------------- 
+  async componentDidMount() {
+    let url = "https://newsapi.org/v2/top-headlines?country=in&category=business&apiKey=2ca38cd9a482465abfb631ade3f88ed9&page=1"
+    let data = await fetch(url)
+    let parsedata = await data.json()
+    console.log(parsedata);       // ahiya thi khar pade ke otal 70 result 6 parntu apne ne 20 j dekahy 6
+    this.setState({ articles: parsedata.articles, totalResults: parsedata.totalResults })
 
-      
+  }
+
+
+  //next click------->
+  handlenextclick = async () => {
+    console.log('next');
+    if (this.state.page + 1 > Math.ceil(this.state.totalResults / 20)) {
+
     }
+    else {
+      let url = `https://newsapi.org/v2/top-headlines?country=in&category=business&apiKey=2ca38cd9a482465abfb631ade3f88ed9&page=${this.state.page}&pagesize=15`
+      let data = await fetch(url)
+      let parsedata = await data.json()
+      this.setState({
+        page: this.state.page + 1,
+        articles: parsedata.articles
+      })
+    }
+  }
+
+  ///previous btn-------->
+  handlepreviousclick = async () => {
+    console.log('previous');
+    let url = `https://newsapi.org/v2/top-headlines?country=in&category=business&apiKey=2ca38cd9a482465abfb631ade3f88ed9&page=${this.state.page - 1}`
+    let data = await fetch(url)
+    let parsedata = await data.json()
+    this.setState({
+      page: this.state.page - 1,
+      articles: parsedata.articles,
+    })
+  }
+
+
   render() {
     return (
       <div className="container my-4">
@@ -294,12 +327,16 @@ export default class News extends Component {
         })} */}
         <div className="row">
           {this.state.articles.map((element) => {
-            return    <div className="col-md-4" key={element.url} >
-              <NewsItem title={element.title?element.title.slice(0,45):null}  description={element.description?element.description.slice(0,80):null}  imageUrl={ !element.urlToImage?"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjCAfVgATBaPFFWX2WWJF6x-gVW4P1mdvfKA&usqp=CAU":element.urlToImage} newsUrl={element.url} />
+            return <div className="col-md-4" key={element.url} >
+              <NewsItem title={element.title ? element.title.slice(0, 45) : null} description={element.description ? element.description.slice(0, 80) : null} imageUrl={!element.urlToImage ? "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjCAfVgATBaPFFWX2WWJF6x-gVW4P1mdvfKA&usqp=CAU" : element.urlToImage} newsUrl={element.url} />
             </div>
           })}
+        </div>
 
-
+        {/* <div className="container "> */}
+        <div className="container d-flex justify-content-between">
+          <button type="button" disabled={this.state.page <= 1} className="btn btn-primary" onClick={this.handlepreviousclick}> &larr; Primary</button>
+          <button type="button" className="btn btn-primary" onClick={this.handlenextclick}>Next &raquo;</button>
         </div>
 
 
