@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import NewsItem from './NewsItem'
+import Spinner from './Spinner';
 
 export default class News extends Component {
 
@@ -280,11 +281,12 @@ export default class News extends Component {
 
   ///componet did mount--------------- 
   async componentDidMount() {
-    let url = "https://newsapi.org/v2/top-headlines?country=in&category=business&apiKey=2ca38cd9a482465abfb631ade3f88ed9&page=1"
+    let url = `https://newsapi.org/v2/top-headlines?country=in&category=business&apiKey=2ca38cd9a482465abfb631ade3f88ed9&page=1&pagesize=${this.props.pagesize}`
     let data = await fetch(url)
+    this.setState({loading:true})
     let parsedata = await data.json()
     console.log(parsedata);       // ahiya thi khar pade ke otal 70 result 6 parntu apne ne 20 j dekahy 6
-    this.setState({ articles: parsedata.articles, totalResults: parsedata.totalResults })
+    this.setState({ articles: parsedata.articles, totalResults: parsedata.totalResults,loading:false})
 
   }
 
@@ -292,16 +294,18 @@ export default class News extends Component {
   //next click------->
   handlenextclick = async () => {
     console.log('next');
-    if (this.state.page + 1 > Math.ceil(this.state.totalResults / 20)) {
+    if (this.state.page + 1 > Math.ceil(this.state.totalResults / this.props.pagesize)) {
 
     }
     else {
-      let url = `https://newsapi.org/v2/top-headlines?country=in&category=business&apiKey=2ca38cd9a482465abfb631ade3f88ed9&page=${this.state.page}&pagesize=15`
+      let url = `https://newsapi.org/v2/top-headlines?country=in&category=business&apiKey=2ca38cd9a482465abfb631ade3f88ed9&page=${this.state.page}&pagesize=${this.props.pagesize}`
       let data = await fetch(url)
+      this.setState({loading:true})
       let parsedata = await data.json()
       this.setState({
         page: this.state.page + 1,
-        articles: parsedata.articles
+        articles: parsedata.articles,
+        loading:false
       })
     }
   }
@@ -309,12 +313,14 @@ export default class News extends Component {
   ///previous btn-------->
   handlepreviousclick = async () => {
     console.log('previous');
-    let url = `https://newsapi.org/v2/top-headlines?country=in&category=business&apiKey=2ca38cd9a482465abfb631ade3f88ed9&page=${this.state.page - 1}`
+    let url = `https://newsapi.org/v2/top-headlines?country=in&category=business&apiKey=2ca38cd9a482465abfb631ade3f88ed9&page=${this.state.page - 1}&pagesize=20`
     let data = await fetch(url)
+    this.setState({loading:true})
     let parsedata = await data.json()
     this.setState({
       page: this.state.page - 1,
       articles: parsedata.articles,
+      loading:false
     })
   }
 
@@ -322,11 +328,12 @@ export default class News extends Component {
   render() {
     return (
       <div className="container my-4">
-        <h2>NewsSafar - Top Headine</h2>
+        <h2 className="text-center">NewsSafar - Top Headine</h2>
+        {this.state.loading && <Spinner />   }
         {/* {this.state.articles.map((element)=>{console.log(element.author);
         })} */}
         <div className="row">
-          {this.state.articles.map((element) => {
+          {!(this.state.loading) && this.state.articles.map((element) => {
             return <div className="col-md-4" key={element.url} >
               <NewsItem title={element.title ? element.title.slice(0, 45) : null} description={element.description ? element.description.slice(0, 80) : null} imageUrl={!element.urlToImage ? "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjCAfVgATBaPFFWX2WWJF6x-gVW4P1mdvfKA&usqp=CAU" : element.urlToImage} newsUrl={element.url} />
             </div>
@@ -336,7 +343,7 @@ export default class News extends Component {
         {/* <div className="container "> */}
         <div className="container d-flex justify-content-between">
           <button type="button" disabled={this.state.page <= 1} className="btn btn-primary" onClick={this.handlepreviousclick}> &larr; Primary</button>
-          <button type="button" className="btn btn-primary" onClick={this.handlenextclick}>Next &raquo;</button>
+          <button disabled={(this.state.page + 1 > Math.ceil(this.state.totalResults /this.props.pagesize))} type="button" className="btn btn-primary" onClick={this.handlenextclick}>Next &raquo;</button>
         </div>
 
 
