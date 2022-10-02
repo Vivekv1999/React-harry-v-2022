@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, useCallback } from 'react'
 import Navbar from './Component/Navbar'
 import News from './Component/News'
 import NewsItem from './Component/NewsItem'
@@ -9,7 +9,7 @@ export default class App extends Component {
     return (
       <>
       <Navbar />
-      <News pagesize={9}/>
+      <News pagesize={9} country="us" catagory="science"/>
       
       </>
       
