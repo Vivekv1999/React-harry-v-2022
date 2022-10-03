@@ -271,7 +271,7 @@ export default class News extends Component {
   static defaultProps={
     country:"in",
     pagesize:9,
-    category:null
+    category:"general"
   }
   
   static propTypes={
@@ -312,7 +312,7 @@ export default class News extends Component {
 
     }
     else {
-      let url = `https://newsapi.org/v2/top-headlines?country=in&catagory=${this.props.catagory}&apiKey=2ca38cd9a482465abfb631ade3f88ed9&page=${this.state.page}&pagesize=${this.props.pagesize}`
+      let url = `https://newsapi.org/v2/top-headlines?country=in&category=${this.props.category}&apiKey=2ca38cd9a482465abfb631ade3f88ed9&page=${this.state.page}&pagesize=${this.props.pagesize}`
       let data = await fetch(url)
       this.setState({loading:true})
       let parsedata = await data.json()
@@ -320,14 +320,14 @@ export default class News extends Component {
         page: this.state.page + 1,
         articles: parsedata.articles,
         loading:false
-      })
+       })
     }
   }
 
   ///previous btn-------->
   handlepreviousclick = async () => {
     console.log('previous');
-    let url = `https://newsapi.org/v2/top-headlines?country=in&catagory=${this.props.catagory}&apiKey=2ca38cd9a482465abfb631ade3f88ed9&page=${this.state.page - 1}&pagesize=20`
+    let url = `https://newsapi.org/v2/top-headlines?country=in&category=${this.props.category}&apiKey=2ca38cd9a482465abfb631ade3f88ed9&page=${this.state.page - 1}&pagesize=20`
     let data = await fetch(url)
     this.setState({loading:true})
     let parsedata = await data.json()
@@ -349,7 +349,7 @@ export default class News extends Component {
         <div className="row">
           {!(this.state.loading) && this.state.articles.map((element) => {
             return <div className="col-md-4" key={element.url} >
-              <NewsItem title={element.title ? element.title.slice(0, 45) : null} description={element.description ? element.description.slice(0, 80) : null} imageUrl={!element.urlToImage ? "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjCAfVgATBaPFFWX2WWJF6x-gVW4P1mdvfKA&usqp=CAU" : element.urlToImage} newsUrl={element.url} />
+              <NewsItem title={element.title ? element.title.slice(0, 45) : null} description={element.description ? element.description.slice(0, 80) : null} imageUrl={!element.urlToImage ? "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjCAfVgATBaPFFWX2WWJF6x-gVW4P1mdvfKA&usqp=CAU" : element.urlToImage} newsUrl={element.url} author={element.author?element.author:"unknown"} date={element.publishedAt} source={element.source.name}/>
             </div>
           })}
         </div>
