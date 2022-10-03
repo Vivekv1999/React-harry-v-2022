@@ -17,7 +17,7 @@ export default class NewsItem extends Component {
             <p className="card-text">{description}...</p>
             <a href={newsUrl} rel="noreferrer" target="_blank" className="btn btn-primary  btn-sm">Read More</a>
             <p className="card-text"><small className="text-muted">{author},  on {new Date(date).toGMTString()}</small></p>
-            <span class="position-absolute top-0 translate-middle badge rounded-pill bg-danger" style={{left:"90%",zIndex:1}}>
+            <span className="position-absolute top-0 translate-middle badge rounded-pill bg-danger" style={{left:"90%",zIndex:1}}>
              {source}
             </span>
           </div>

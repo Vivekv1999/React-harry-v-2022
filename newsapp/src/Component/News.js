@@ -268,19 +268,20 @@ export default class News extends Component {
   //   }
   // ]
 
-  static defaultProps={
-    country:"in",
-    pagesize:9,
-    category:"general"
-  }
-  
-  static propTypes={
-    country:propTypes.string,
-    pagesize:propTypes.number,
-    category:propTypes.string
+  static defaultProps = {
+    country: "in",
+    pagesize: 9,
+    category: "general",
+    // page:
   }
 
-  
+  static propTypes = {
+    country: propTypes.string,
+    pagesize: propTypes.number,
+    category: propTypes.string
+  }
+
+
   constructor() {
     super()
     console.log('hello i am constructor from news componenet');
@@ -293,63 +294,83 @@ export default class News extends Component {
 
   }
 
-  ///componet did mount--------------- 
-  async componentDidMount() {
-    let url = `https://newsapi.org/v2/top-headlines?&country=${this.props.country}&category=${this.props.category}&apiKey=2ca38cd9a482465abfb631ade3f88ed9&page=1&pagesize=${this.props.pagesize}`
+  //update function for next and previous click common
+  async updatenews() {
+    let url = `https://newsapi.org/v2/top-headlines?&country=${this.props.country}&category=${this.props.category}&apiKey=2ca38cd9a482465abfb631ade3f88ed9&page=${this.state.page}&pagesize=${this.props.pagesize}`
     let data = await fetch(url)
-    this.setState({loading:true})
+    this.setState({ loading: true })
     let parsedata = await data.json()
     console.log(parsedata);       // ahiya thi khar pade ke otal 70 result 6 parntu apne ne 20 j dekahy 6
-    this.setState({ articles: parsedata.articles, totalResults: parsedata.totalResults,loading:false})
+    this.setState({ articles: parsedata.articles, totalResults: parsedata.totalResults, loading: false })
+  }
 
+  ///componet did mount--------------- 
+  async componentDidMount() {
+    // let url = `https://newsapi.org/v2/top-headlines?&country=${this.props.country}&category=${this.props.category}&apiKey=2ca38cd9a482465abfb631ade3f88ed9&page=1&pagesize=${this.props.pagesize}`
+    // let data = await fetch(url)
+    // this.setState({ loading: true })
+    // let parsedata = await data.json()
+    // console.log(parsedata);       // ahiya thi khar pade ke otal 70 result 6 parntu apne ne 20 j dekahy 6
+    // this.setState({ articles: parsedata.articles, totalResults: parsedata.totalResults, loading: false })
+    this.updatenews();
+
+  }
+
+  handlenextclick = async () => {
+    this.setState({ page: this.state.page + 1 })
+    this.updatenews();
+  }
+
+  handlepreviousclick = async () => {
+    this.setState({ page: this.state.page - 1 })
+    this.updatenews();
   }
 
 
   //next click------->
-  handlenextclick = async () => {
-    console.log('next');
-    if (this.state.page + 1 > Math.ceil(this.state.totalResults / this.props.pagesize)) {
-
-    }
-    else {
-      let url = `https://newsapi.org/v2/top-headlines?country=in&category=${this.props.category}&apiKey=2ca38cd9a482465abfb631ade3f88ed9&page=${this.state.page}&pagesize=${this.props.pagesize}`
-      let data = await fetch(url)
-      this.setState({loading:true})
-      let parsedata = await data.json()
-      this.setState({
-        page: this.state.page + 1,
-        articles: parsedata.articles,
-        loading:false
-       })
-    }
-  }
+  // handlenextclick = async () => {
+  //   console.log('next');
+  //   if (this.state.page + 1 > Math.ceil(this.state.totalResults / this.props.pagesize)) {
+  //   }
+  //   else {
+  //     let url = `https://newsapi.org/v2/top-headlines?country=in&category=${this.props.category}&apiKey=2ca38cd9a482465abfb631ade3f88ed9&page=${this.state.page}&pagesize=${this.props.pagesize}`
+  //     let data = await fetch(url)
+  //     this.setState({loading:true})
+  //     let parsedata = await data.json()
+  //     this.setState({
+  //       page: this.state.page + 1,
+  //       articles: parsedata.articles,
+  //       loading:false
+  //      })
+  //   }
+  // }
 
   ///previous btn-------->
-  handlepreviousclick = async () => {
-    console.log('previous');
-    let url = `https://newsapi.org/v2/top-headlines?country=in&category=${this.props.category}&apiKey=2ca38cd9a482465abfb631ade3f88ed9&page=${this.state.page - 1}&pagesize=20`
-    let data = await fetch(url)
-    this.setState({loading:true})
-    let parsedata = await data.json()
-    this.setState({
-      page: this.state.page - 1,
-      articles: parsedata.articles,
-      loading:false
-    })
-  }
+  // handlepreviousclick = async () => {
+  //   console.log('previous');
+  //   let url = `https://newsapi.org/v2/top-headlines?country=in&category=${this.props.category}&apiKey=2ca38cd9a482465abfb631ade3f88ed9&page=${this.state.page - 1}&pagesize=20`
+  //   let data = await fetch(url)
+  //   this.setState({loading:true})
+  //   let parsedata = await data.json()
+  //   this.setState({
+  //     page: this.state.page - 1,
+  //     articles: parsedata.articles,
+  //     loading:false
+  //   })
+  // }
 
 
   render() {
     return (
       <div className="container my-4">
         <h2 className="text-center">NewsSafar - Top Headine {this.props.category}</h2>
-        {this.state.loading && <Spinner />   }
+        {this.state.loading && <Spinner />}
         {/* {this.state.articles.map((element)=>{console.log(element.author);
         })} */}
         <div className="row">
           {!(this.state.loading) && this.state.articles.map((element) => {
             return <div className="col-md-4" key={element.url} >
-              <NewsItem title={element.title ? element.title.slice(0, 45) : null} description={element.description ? element.description.slice(0, 80) : null} imageUrl={!element.urlToImage ? "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjCAfVgATBaPFFWX2WWJF6x-gVW4P1mdvfKA&usqp=CAU" : element.urlToImage} newsUrl={element.url} author={element.author?element.author:"unknown"} date={element.publishedAt} source={element.source.name}/>
+              <NewsItem title={element.title ? element.title.slice(0, 45) : null} description={element.description ? element.description.slice(0, 80) : null} imageUrl={!element.urlToImage ? "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjCAfVgATBaPFFWX2WWJF6x-gVW4P1mdvfKA&usqp=CAU" : element.urlToImage} newsUrl={element.url} author={element.author ? element.author : "unknown"} date={element.publishedAt} source={element.source.name} />
             </div>
           })}
         </div>
@@ -357,7 +378,7 @@ export default class News extends Component {
         {/* <div className="container "> */}
         <div className="container d-flex justify-content-between">
           <button type="button" disabled={this.state.page <= 1} className="btn btn-primary" onClick={this.handlepreviousclick}> &larr; Primary</button>
-          <button disabled={(this.state.page + 1 > Math.ceil(this.state.totalResults /this.props.pagesize))} type="button" className="btn btn-primary" onClick={this.handlenextclick}>Next &raquo;</button>
+          <button disabled={(this.state.page + 1 > Math.ceil(this.state.totalResults / this.props.pagesize))} type="button" className="btn btn-primary" onClick={this.handlenextclick}>Next &raquo;</button>
         </div>
 
 
