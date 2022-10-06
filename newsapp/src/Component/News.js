@@ -273,7 +273,7 @@ export default class News extends Component {
     country: "in",
     pagesize: 9,
     category: "general",
-    // page:
+    page:1
   }
 
   static propTypes = {
@@ -294,15 +294,15 @@ export default class News extends Component {
     }
 
   }
-
+///////////////////////////////////////////////////////////////////////////;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   //update function for next and previous click common
   async updatenews() {
     
     this.props.setprogress(10)
-    let url = `https://newsapi.org/v2/top-headlines?&country=${this.props.country}&category=${this.props.category}&apiKey=2ca38cd9a482465abfb631ade3f88ed9&page=${this.state.page}&pagesize=${this.props.pagesize}`
+    let url = `https://newsapi.org/v2/top-headlines?&country=${this.props.country}&category=${this.props.category}&apiKey=${this.props.apikey}&page=${this.state.page}&pagesize=${this.props.pagesize}`
+    this.setState({ loading: true })
     let data = await fetch(url)
     this.props.setprogress(40)
-    this.setState({ loading: true })
     let parsedata = await data.json()
     console.log(parsedata);       // ahiya thi khar pade ke otal 70 result 6 parntu apne ne 20 j dekahy 6
     this.setState({
@@ -311,7 +311,7 @@ export default class News extends Component {
       loading: false
     })
     this.props.setprogress(100)
-    // console.log(this.state.articles.length);
+    // console.log(this.state.articles.length)                       ;
   }
 
   ///componet did mount--------------- 
@@ -373,9 +373,9 @@ export default class News extends Component {
   // }
 
   fetchMoreData = async () => {
-    this.setState({ page: this.state.page + 1 })
     // this.updatenews() ======>aa nathi no thayu
-    let url = `https://newsapi.org/v2/top-headlines?&country=${this.props.country}&category=${this.props.category}&apiKey=2ca38cd9a482465abfb631ade3f88ed9&page=${this.state.page}&pagesize=${this.props.pagesize}`
+    let url =`https://newsapi.org/v2/top-headlines?&country=${this.props.country}&category=${this.props.category}&apiKey=${this.props.apikey}&page=${this.state.page+1}&pagesize=${this.props.pagesize}`
+    this.setState({ page: this.state.page + 1 })
     let data = await fetch(url)
     this.setState({ loading: true })
     let parsedata = await data.json()
