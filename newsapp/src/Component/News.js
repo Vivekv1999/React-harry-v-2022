@@ -297,7 +297,6 @@ export default class News extends Component {
 ///////////////////////////////////////////////////////////////////////////;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   //update function for next and previous click common
   async updatenews() {
-    
     this.props.setprogress(10)
     let url = `https://newsapi.org/v2/top-headlines?&country=${this.props.country}&category=${this.props.category}&apiKey=${this.props.apikey}&page=${this.state.page}&pagesize=${this.props.pagesize}`
     this.setState({ loading: true })
