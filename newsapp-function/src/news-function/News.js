@@ -9,15 +9,15 @@ const News = (props) => {
 
     const [articles, setArticles] = useState([])
     const [loading, setLoading] = useState(true)
-    const [page, setPage] = useState(1)
+    const [page, setPage] = useState(0)
     const [totalResults, setTotalResults] = useState(0)
 
 
     //update function for next and previous click common
     const updatenews = async () => {
         props.setprogress(10)
-        setPage(page + 1);
         let url = `https://newsapi.org/v2/top-headlines?&country=${props.country}&category=${props.category}&apiKey=${props.apikey}&page=${page+1}&pagesize=${props.pagesize}`
+        setPage(page + 1);
         setLoading(true);
         let data = await fetch(url)
         props.setprogress(40)
@@ -66,7 +66,7 @@ const News = (props) => {
     return (
         <>
             {/* <div className="container my-4"> */}
-            <h2 className="text-center">NewsSafar - Top Headine {props.category}</h2>
+            <h2 className="text-center" style={{marginTop:'65px'}}>NewsSafar - Top Headine {props.category}</h2>
             {loading && <Spinner />}
             {/* {this.state.articles.map((element)=>{console.log(element.author);
         })} */}
