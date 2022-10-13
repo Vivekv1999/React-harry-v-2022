@@ -2,7 +2,11 @@ const express = require('express')
 const router = express.Router();
 const User = require('../models/User')
 const { body, validationResult } = require('express-validator');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
+
+const JWT_SECRET = "harryistechm"
 
 //create user using : POST "api/auth/createuser". DOes not req. authetiction  =====> aa path THUNDERCLOENT am apisu 
 router.post('/createuser', [
@@ -25,19 +29,29 @@ router.post('/createuser', [
         if (user) {
             return res.status(400).json({ error: "sorry a user with this email alredy exists" })
         }
+
+        const salt = await bcrypt.genSalt(10)
+        const secPass = await bcrypt.hash(req.body.password, salt)
         //create new user
         user = await User.create({
             name: req.body.name,
             email: req.body.email,
-            password: req.body.password,
+            password: secPass,
         })
+
+        const data = {
+            user: {
+                id: user.id
+
+            }
+        }
+        const authtoken = jwt.sign(data, JWT_SECRET)
+        console.log(jwtdata);
+
 
         // .then(user => res.json(user))
         // .catch(err => console.log(err))
         // res.json({error:'plese enter a unique value for email'})
-
-
-
 
         // console.log(req.body);
         // const user = User(req.body)
@@ -48,8 +62,8 @@ router.post('/createuser', [
         // res.json({"done":"ok"})         ///====threrclint ma aa sucess has tpo dekhse
         res.json(user)
     } catch (error) {
-            console.log(error.message);
-            res.status(500).send("some Error occured")            
+        console.log(error.message);
+        res.status(500).send("some Error occured")
     }
 
 })
