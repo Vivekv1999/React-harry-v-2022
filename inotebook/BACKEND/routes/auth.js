@@ -4,10 +4,13 @@ const User = require('../models/User')
 const { body, validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const fetchuser=require('../middleware/fetchuser')
+
 
 
 const JWT_SECRET = "harryistechm"
 
+//route-1
 //create user using : POST "api/auth/createuser". DOes not req. authetiction  =====> aa path THUNDERCLOENT am apisu 
 router.post('/createuser', [
     body('name').isLength({ min: 3 }),
@@ -68,6 +71,8 @@ router.post('/createuser', [
 
 })
 
+
+//route-2
 //authenticate a user uding : post"/api/auth/login"
 router.post('/login', [
     body('email', "enter a valid email").isEmail(),
@@ -78,7 +83,7 @@ router.post('/login', [
         return res.status(400).json({ errors: errors.array() });
     }
 
-    const {email, password} = req.body
+    const { email, password } = req.body
     try {
         let user = await User.findOne({ email });
         if (!user) {
@@ -106,4 +111,19 @@ router.post('/login', [
 
 
 })
+
+//route-3
+//get loged in user detail using: POST "api/auth/getuser". login userired
+router.post('/getuser',fetchuser, async (req, res) => {
+    try {
+        userId = req.user.id
+        const user = await User.findById(userId).select("-password")
+        res.send(user)
+
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).send("Internal server Error occured")
+    }
+})
+
 module.exports = router
