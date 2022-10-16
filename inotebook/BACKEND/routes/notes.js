@@ -5,7 +5,7 @@ const fetchuser = require('../middleware/fetchuser')
 const Note = require('../models/Note')
 
 //notes fetch karune apse ==> je user login 6 teni....
-// route-1== get all the notes using token in header  === method  get 
+////// route-1== get all the notes using token in header  === method  get 
 router.get('/fetchallnotes', fetchuser, async (req, res) => {
     try {
         const notes = await Note.find({ user: req.user.id })
@@ -17,7 +17,7 @@ router.get('/fetchallnotes', fetchuser, async (req, res) => {
     }
 })
 
-// router=2 add a new note with   POST-method
+////// router=2 add a new note with   POST-method
 router.post('/addnote', fetchuser, [
     body('title').isLength({ min: 3 }),
     body('description', "dddd").isLength({ min: 5 })
@@ -46,13 +46,12 @@ router.post('/addnote', fetchuser, [
 })
 
 
-
-// router=3 u[adte an existingnote : put"api/note/updatenote". login required
+/////// router=3 update an existingnote : put"api/note/updatenote". login required
 router.put('/updatenote/:id', fetchuser, async (req, res) => {
     const { title, description, tag } = req.body
 
     //create anewNote object
-    const newNote = {}
+    let newNote = {}
     if (title) { newNote.title = title }
     if (description) { newNote.description = description }
     if (tag) { newNote.tag = tag }
@@ -70,7 +69,34 @@ router.put('/updatenote/:id', fetchuser, async (req, res) => {
     }
 
     note = await Note.findByIdAndUpdate(req.params.id, { $set: newNote }, { new: true })
-        res.json({note})
+    res.json({ note })
+
+})
+
+
+////// router=4 delete an existingnote using delete "api/note/deletenote".   login required
+router.delete('/deletenote/:id', fetchuser, async (req, res) => {
+    const { title, description, tag } = req.body
+
+    //create anewNote object
+    let newNote = {}
+    if (title) { newNote.title = title }
+    if (description) { newNote.description = description }
+    if (tag) { newNote.tag = tag }
+
+    //find the note to be updated and update it
+    let note = await Note.findById(req.params.id)
+    if (!note) {
+        return res.status(401).send('not found')
+    }
+
+    //user aa note no 6 te check karava   //-->ahiya je user login 6btr bija ni note upadate kareva ni try karse to te nay thay mate...
+    if (note.user.toString() !== req.user.id) {
+        return res.status(401).send('not allowed')
+    }
+
+    note = await Note.findByIdAndDelete(req.params.id)
+    res.json({ "sucess": "Note has been succesfully deleteed", note: note })
 
 })
 module.exports = router
