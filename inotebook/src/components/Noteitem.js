@@ -10,7 +10,10 @@ export default function Noteitem(props) {
                 <Card.Body>
                     <Card.Title>{note.title}</Card.Title>
                     <Card.Text>{note.description}</Card.Text>
-                    <Button variant="primary">Go somewhere</Button>
+                    <i class="fa-solid fa-trash mx-2"></i>
+                    <i class="fa-regular fa-pen-to-square mx-2"></i>
+                    {/* <FontAwesomeIcon icon="fa-duotone fa-trash" /> */}
+                    {/* <Button variant="primary">Go somewhere</Button> */}
                 </Card.Body>
             </Card>
         </div>
