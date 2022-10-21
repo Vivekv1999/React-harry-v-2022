@@ -45,10 +45,20 @@ export default function NoteState(props) {
     setnotes(notes.concat(note))
   }
 
-  //Delete note
-  const deletenote = (id) => {
+  ///=============>>>>>>================//Delete note
+  const deletenote = async (id) => {
     console.log('deleteing...', id);
     ///  TODO : api call
+    const response = await fetch(`${host}/api/notes/deletenote/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjM0ODMwNzhhZGU3N2EzZmY1Njk0NmEzIn0sImlhdCI6MTY2NTc1NDAwN30.GRNMeH_jF7ANhWT-XeUF34TchK1dbxFJHXNmuTC8MU8',
+        'Content-Type': 'application/json'
+      },
+    });
+    const jsonnn = await response.json();
+    console.log(jsonnn);
+    ////////////---client side delete
     const newnote = notes.filter((note) => { return note._id !== id })
     setnotes(newnote)
   }
