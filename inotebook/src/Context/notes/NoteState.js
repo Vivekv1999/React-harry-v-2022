@@ -67,7 +67,7 @@ export default function NoteState(props) {
   const editnote = async (id, title, description, tag) => {
     //addd fetch ---api call
     const response = await fetch(`${host}/api/notes/updatenote/${id}`, {
-      method: 'POST',
+      method: 'PUT',
       headers: {
         'auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjM0ODMwNzhhZGU3N2EzZmY1Njk0NmEzIn0sImlhdCI6MTY2NTc1NDAwN30.GRNMeH_jF7ANhWT-XeUF34TchK1dbxFJHXNmuTC8MU8',
         'Content-Type': 'application/json'
@@ -77,16 +77,20 @@ export default function NoteState(props) {
     const jsonnn = await response.json();
     console.log(jsonnn);
 
-
+    const newnotesss=JSON.parse(JSON.stringify(notes))
     //logicc to edit note in client
     for (let index = 0; index < notes.length; index++) {
       const element = notes[index]
       if (element._id === id) {
-        element.title = title
-        element.description = description
-        element.tag = tag
-      }
+        newnotesss[index].title = title
+        newnotesss[index].description = description
+        newnotesss[index].tag = tag
+        break;
+      } 
+      setnotes(newnotesss)
+      console.log(newnotesss);
     }
+    
   }
   const [notes, setnotes] = useState(intialnote)
 
