@@ -33,15 +33,8 @@ export default function NoteState(props) {
       },
       body: JSON.stringify({ title, description, tag }) // body data type must match "Content-Type" header
     });
+    const note=await response.json()
     ///  TODO : api call
-    const note = {
-      "_id": "634bfd310bb61bc724beddb2",
-      "user": "63483078ade77a3ff56946a3",
-      "title": title,
-      "description": description,
-      "tag": tag,
-      "__v": 0
-    }
     setnotes(notes.concat(note))
   }
 
