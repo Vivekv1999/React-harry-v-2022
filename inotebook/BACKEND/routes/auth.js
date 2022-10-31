@@ -4,7 +4,7 @@ const User = require('../models/User')
 const { body, validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const fetchuser=require('../middleware/fetchuser')
+const fetchuser = require('../middleware/fetchuser')
 
 
 
@@ -87,13 +87,15 @@ router.post('/login', [
     try {
         let user = await User.findOne({ email });
         if (!user) {
-            return res.status(400).json({ error: 'please try to login with correct credendtial' })
+            const success = false
+            return res.status(400).json({ sucess, error: 'please try to login with correct credendtial' })
 
         }
         const passwordcompare = await bcrypt.compare(password, user.password);
         if (!passwordcompare) {
+            const success = false
             return req.status(400).json({
-                error: "please try to login with correct credential"
+                success, error: "please try to login with correct credential"
             })
 
         }
@@ -103,7 +105,8 @@ router.post('/login', [
             }
         }
         const authtoken = jwt.sign(data, JWT_SECRET)
-        res.send({ authtoken })
+        const success = true
+        res.send({ success, authtoken })
     } catch (error) {
         console.log(error.message);
         res.status(500).send("Internal server Error occured")
@@ -114,7 +117,7 @@ router.post('/login', [
 
 //route-3
 //get loged in user detail using: POST "api/auth/getuser". login userired
-router.post('/getuser',fetchuser, async (req, res) => {
+router.post('/getuser', fetchuser, async (req, res) => {
     try {
         userId = req.user.id
         const user = await User.findById(userId).select("-password")
