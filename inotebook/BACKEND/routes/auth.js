@@ -17,10 +17,11 @@ router.post('/createuser', [
     body('email', "enter a valid email").isEmail(),
     body('password').isLength({ min: 5 })
 ], async (req, res) => {
+    let success=false;
     //if htere are error,return bad request and the errors
     const errors = validationResult(req)
     if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
+        return res.status(400).json({success, errors: errors.array() });
     }
 
 
@@ -30,7 +31,7 @@ router.post('/createuser', [
         let user = await User.findOne({ email: req.body.email })
         console.log(user)
         if (user) {
-            return res.status(400).json({ error: "sorry a user with this email alredy exists" })
+            return res.status(400).json({ success ,error: "sorry a user with this email alredy exists" })
         }
 
         const salt = await bcrypt.genSalt(10)
@@ -49,7 +50,6 @@ router.post('/createuser', [
             }
         }
         const authtoken = jwt.sign(data, JWT_SECRET)
-        console.log(jwtdata);
 
 
         // .then(user => res.json(user))
@@ -62,8 +62,9 @@ router.post('/createuser', [
         // res.send(req.body);
 
 
-        // res.json({"done":"ok"})         ///====threrclint ma aa sucess has tpo dekhse
-        res.json(user)
+        // res.json({"done":"ok"})         ///====threrclint ma aa success has tpo dekhse
+        success=true;
+        res.json({success,authtoken})            //{}=>ma authtooken na khavarthi*********ther clent ma response ma akhu dekhay...
     } catch (error) {
         console.log(error.message);
         res.status(500).send("some Error occured")
@@ -88,7 +89,7 @@ router.post('/login', [
         let user = await User.findOne({ email });
         if (!user) {
             const success = false
-            return res.status(400).json({ sucess, error: 'please try to login with correct credendtial' })
+            return res.status(400).json({ success, error: 'please try to login with correct credendtial' })
 
         }
         const passwordcompare = await bcrypt.compare(password, user.password);
