@@ -13,7 +13,7 @@ export default function NoteState(props) {
     const response = await fetch(`${host}/api/notes/fetchallnotes`, {
       method: 'GET',
       headers: {
-        'auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjM0ODMwNzhhZGU3N2EzZmY1Njk0NmEzIn0sImlhdCI6MTY2NTc1NDAwN30.GRNMeH_jF7ANhWT-XeUF34TchK1dbxFJHXNmuTC8MU8',
+        'auth-token': localStorage.getItem('token'),
         'Content-Type': 'application/json'
       }
     });
@@ -28,7 +28,7 @@ export default function NoteState(props) {
     const response = await fetch(`${host}/api/notes/addnote`, {
       method: 'POST',
       headers: {
-        'auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjM0ODMwNzhhZGU3N2EzZmY1Njk0NmEzIn0sImlhdCI6MTY2NTc1NDAwN30.GRNMeH_jF7ANhWT-XeUF34TchK1dbxFJHXNmuTC8MU8',
+        'auth-token': localStorage.getItem('token'),
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({ title, description, tag }) // body data type must match "Content-Type" header
@@ -45,7 +45,7 @@ export default function NoteState(props) {
     const response = await fetch(`${host}/api/notes/deletenote/${id}`, {
       method: 'DELETE',
       headers: {
-        'auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjM0ODMwNzhhZGU3N2EzZmY1Njk0NmEzIn0sImlhdCI6MTY2NTc1NDAwN30.GRNMeH_jF7ANhWT-XeUF34TchK1dbxFJHXNmuTC8MU8',
+        'auth-token': localStorage.getItem('token'),
         'Content-Type': 'application/json'
       },
     });
@@ -62,7 +62,7 @@ export default function NoteState(props) {
     const response = await fetch(`${host}/api/notes/updatenote/${id}`, {
       method: 'PUT',
       headers: {
-        'auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjM0ODMwNzhhZGU3N2EzZmY1Njk0NmEzIn0sImlhdCI6MTY2NTc1NDAwN30.GRNMeH_jF7ANhWT-XeUF34TchK1dbxFJHXNmuTC8MU8',
+        'auth-token': localStorage.getItem('token'),
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({ title, description, tag }) // body data type must match "Content-Type" header

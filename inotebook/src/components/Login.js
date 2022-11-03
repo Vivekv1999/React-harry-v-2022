@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 export default function Login(props) {
-    const [credential, setcredential] = useState({ email: " ", password: " " })
+    const [credential, setcredential] = useState({ email: " ",password:""})
     const nevigate = useNavigate()
 
     const handlesubmit = async (e) => {
@@ -28,11 +28,13 @@ export default function Login(props) {
     }
 
     const onchange = (e) => {
+        console.log(e.target.value);
         setcredential({ ...credential, [e.target.name]: e.target.value })
     }
 
     return (
         <div>
+            <h2>Login to continue to iNotebook</h2>
             <form onSubmit={handlesubmit}>
                 <div className="conatiner" >
                     <div className="mb-3">
@@ -41,7 +43,7 @@ export default function Login(props) {
                     </div>
                     <div className="mb-3">
                         <label htmlFor="password" className="form-label">Password</label>
-                        <input type="password" className='form-control' name="password" value={credential.password} onchange={onchange} required/>
+                        <input type="password"  className='form-control' name="password" value={credential.password} onChange={onchange} />
                     </div>
 
                     <button type="submit" className="btn btn-primary">Submit</button>

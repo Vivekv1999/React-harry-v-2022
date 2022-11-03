@@ -2,16 +2,22 @@ import React, { useContext, useEffect, useRef, useState } from 'react'
 import noteContext from '../Context/notes/noteContext';
 import Addnote from './Addnote';
 import Noteitem from './Noteitem';
-
+import {useNavigate} from 'react-router-dom'
 
 export default function Notes(props) {
+    const nevigate= useNavigate()
     const Context = useContext(noteContext)
     const { notes, getnotes, editnote } = Context;
     const ref = useRef()
     const refclose = useRef()
     const [note, setnote] = useState({id:" ",etitle: "", edescription: "", etag: "" })
     useEffect(() => {
-        getnotes()
+        if(localStorage.getItem('token')){
+            getnotes()
+        }
+        else{
+            nevigate('/login')
+        }
     }, [])
 
     const updatenote = (currentnote) => {
@@ -27,7 +33,7 @@ export default function Notes(props) {
         e.preventDefault()
         editnote(note.id,note.etitle,note.edescription,note.etag)
         refclose.current.click()
-        props.showAlert("account logged in succesfully","success")
+        props.showAlert("note added succesfully","success")
     }
 
     const onchange = (e) => {

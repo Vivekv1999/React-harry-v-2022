@@ -18,7 +18,7 @@ export default function Noteitem(props) {
                         deletenote(note._id); 
                         props.showAlert("note deleted succesfully","success")
                          }}></i>
-                    <i className="fa-regular fa-pen-to-square mx-2" onClick={() => { updatenote(note) }}></i>
+                    <i className="fa-regular fa-pen-to-square mx-2" onClick={  () => { updatenote(note) }}></i>
                     {/* <FontAwesomeIcon icon="fa-duotone fa-trash" /> */}
                     {/* <Button variant="primary">Go somewhere</Button> */}
                 </Card.Body>
