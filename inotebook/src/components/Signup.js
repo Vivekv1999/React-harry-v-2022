@@ -2,7 +2,7 @@ import React from 'react'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-export default function Signup() {
+export default function Signup(props) {
   const [credential, setcredential] = useState({ email: " ", password: " ", cpassword: " " })
   const nevigate = useNavigate()
 
@@ -21,9 +21,12 @@ export default function Signup() {
     if (json.success){
       localStorage.setItem('token', json.authtoken)
       nevigate('/')
+      props.showAlert("account created succesfully","success")
     }
     else{
-      alert("invalid deatil")
+      console.log('not sign innn');
+      
+      props.showAlert("invalid creadiantial",'danger')
     }
   }
 

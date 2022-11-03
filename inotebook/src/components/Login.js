@@ -2,7 +2,7 @@ import React from 'react'
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-export default function Login() {
+export default function Login(props) {
     const [credential, setcredential] = useState({ email: " ", password: " " })
     const nevigate = useNavigate()
 
@@ -20,6 +20,10 @@ export default function Login() {
         if (json.success) {
             localStorage.setItem('token', json.authtoken)
             nevigate('/')
+            props.showAlert("account logged in succesfully","success")
+        }
+        else{
+            props.showAlert("invalid deatil","danger")
         }
     }
 
@@ -37,7 +41,7 @@ export default function Login() {
                     </div>
                     <div className="mb-3">
                         <label htmlFor="password" className="form-label">Password</label>
-                        <input type="password" className="form-control" value={credential.password} onChange={onchange} name="password" />
+                        <input type="password" className='form-control' name="password" value={credential.password} onchange={onchange} required/>
                     </div>
 
                     <button type="submit" className="btn btn-primary">Submit</button>

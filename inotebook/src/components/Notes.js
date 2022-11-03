@@ -4,7 +4,7 @@ import Addnote from './Addnote';
 import Noteitem from './Noteitem';
 
 
-export default function Notes() {
+export default function Notes(props) {
     const Context = useContext(noteContext)
     const { notes, getnotes, editnote } = Context;
     const ref = useRef()
@@ -17,6 +17,7 @@ export default function Notes() {
     const updatenote = (currentnote) => {
         ref.current.click()
         setnote({ id:currentnote._id,etitle: currentnote.title, edescription: currentnote.description, etag: currentnote.tag })
+       
         // setnote(currentnote)
     }
 
@@ -26,6 +27,7 @@ export default function Notes() {
         e.preventDefault()
         editnote(note.id,note.etitle,note.edescription,note.etag)
         refclose.current.click()
+        props.showAlert("account logged in succesfully","success")
     }
 
     const onchange = (e) => {
@@ -34,7 +36,7 @@ export default function Notes() {
     }
     return (
         <>
-            <Addnote />
+            <Addnote showAlert={props.showAlert} />
             <div>
                 <button ref={ref} type="button" className="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#exampleModal">
                     Launch demo modal
@@ -76,7 +78,7 @@ export default function Notes() {
                     {notes.length===0 && 'no notes to dispaly'}
                 </div>
                 {notes.map((note) => {
-                    return <Noteitem key={note._id} note={note} updatenote={updatenote} />
+                    return <Noteitem key={note._id} note={note} updatenote={updatenote} showAlert={props.showAlert} />
                 })}
             </div>
         </>

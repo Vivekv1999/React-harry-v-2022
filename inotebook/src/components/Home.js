@@ -3,13 +3,12 @@ import noteContext from '../Context/notes/noteContext'
 import Addnote from './Addnote'
 import Notes from './Notes'
 
-export default function Home() {
-
-
+export default function Home(props) {
+  const {showAlert}=props
 
   return (
     <>
-      <Notes />
+      <Notes showAlert={showAlert} />
 
     </>
 

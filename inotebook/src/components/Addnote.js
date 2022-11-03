@@ -4,7 +4,7 @@ import Notes from './Notes';
 // import Addnote from './Addnote';
 
 
-export default function Addnote() {
+export default function Addnote(props) {
   const Context = useContext(noteContext)
   const { addnote } = Context;
 
@@ -14,6 +14,7 @@ export default function Addnote() {
     e.preventDefault()
     addnote(note.title, note.description, note.tag)
     setnote({title: "", description: "", tag: ""  })
+    props.showAlert("note added succesfully","success")
   }
 
   const onchange = (e) => {
