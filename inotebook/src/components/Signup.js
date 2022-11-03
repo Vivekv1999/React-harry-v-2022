@@ -36,7 +36,7 @@ export default function Signup(props) {
 
   return (
     <div>
-       <h2>signup to continue to iNotebook</h2>
+       <h2>signup to create iNotebook account</h2>
       <form onSubmit={handlesubmit}>
         <div className="mb-2">
           <label htmlFor="exampleInputEmail1" className="form-label">Name</label>
