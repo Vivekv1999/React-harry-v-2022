@@ -1,0 +1,1 @@
+export * as actioncretors from './action-creator/index'

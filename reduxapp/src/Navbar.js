@@ -18,7 +18,7 @@ export default function Navbar() {
                         </li>
                     </ul>
                     <div>
-                        <button className='btn btn-primary' disabled={true}>Your balance: 0</button>
+                        <button className='btn btn-primary' disabled={true}>Your balance: 4989999000</button>
                     </div>
                 </div>
             </div>
